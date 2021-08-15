@@ -9,10 +9,10 @@ export class ShoppingListService {
   ingredientAdded = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
 
-  private ingredients:Ingredient[] =[
-    new Ingredient("apples",25),
-    new Ingredient("tomatoes",15)
-  ];
+  private ingredients:Ingredient[] =[]
+  //   new Ingredient("apples",25),
+  //   new Ingredient("tomatoes",15)
+  // ];
 
 
   addIngredient(ingredient: Ingredient){
