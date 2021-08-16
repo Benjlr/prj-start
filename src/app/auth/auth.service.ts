@@ -19,7 +19,7 @@ export interface AuthResponseData {
 })
 export class AuthService {
   user = new BehaviorSubject<User>(null);
-
+  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private route: Router) {}
 
@@ -69,9 +69,21 @@ export class AuthService {
       );
   }
 
-  logout(){
+  logout() {
+    localStorage.clear();
     this.user.next(null);
-    this.route.navigate(['/auth']);
+    this.route.navigate(["/auth"]);
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+
+    this.tokenExpirationTimer = null;
+  }
+
+  autoLogOut(expiration: number) {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expiration);
   }
 
   private handleAuthentication(
@@ -83,7 +95,8 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIN * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
-    localStorage.setItem('userData', JSON.stringify(user));
+    this.autoLogOut(expiresIN * 1000);
+    localStorage.setItem("userData", JSON.stringify(user));
   }
 
   private handleError(errorResp: HttpErrorResponse) {
@@ -101,20 +114,26 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  autoLogin(){
+  autoLogin() {
     const userData: {
-      email:string;
-      id:string;
+      email: string;
+      id: string;
       _token: string;
       _tokenExpire: string;
-    } = JSON.parse(localStorage.getItem('userData'));
-    if(!userData)  return;
+    } = JSON.parse(localStorage.getItem("userData"));
+    if (!userData) return;
 
-
-    const user = new User(userData.email,userData.id,userData._token, new Date(userData._tokenExpire));
-    if(user.token)
+    const user = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpire)
+    );
+    if (user.token) {
       this.user.next(user);
+      const expirationDuration =
+        new Date(userData._tokenExpire).getTime() - new Date().getTime();
+      this.autoLogOut(expirationDuration);
+    }
   }
-
-  
 }
