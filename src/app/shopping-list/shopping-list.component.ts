@@ -12,7 +12,7 @@ import { Store } from "@ngrx/store";
 })
 export class ShoppingListComponent implements OnInit {
   ingredients: Observable<{ ingredients: Ingredient[] }>;
-  private igChangeSub: Subscription;
+  //private igChangeSub: Subscription;
 
   constructor(
     private shoppingService: ShoppingListService,
@@ -21,8 +21,14 @@ export class ShoppingListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ingredients = this.store.select("shoppingList");
-
+    this.ingredients = this.store.select('shoppingList');
+    // this.ingredients = this.slService.getIngredients();
+    // this.subscription = this.slService.ingredientsChanged.subscribe(
+    //   (ingredients: Ingredient[]) => {
+    //     this.ingredients = ingredients;
+    //   }
+    // );
+    let igloee = this.ingredients.forEach(x=>console.log(x))
     this.log.printLog("HI FROM SHOP");
   }
 

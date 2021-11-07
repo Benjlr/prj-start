@@ -18,16 +18,12 @@ import { shoppingListReducer } from "./shopping-list/store/shopping-list.reducer
   declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
-    FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forRoot({shoppingList: shoppingListReducer}),
 
-    ShoppingListModule,
     SharedModule,
     CoreModule,
-    AuthModule,
   ],
 //  providers:[LoggingService],
   bootstrap: [AppComponent],
