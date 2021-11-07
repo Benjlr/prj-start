@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { LoggingService } from "../logging.service";
 import { AlertComponent } from "./Alert/alert.component";
 import { DomPlaceHolder } from "./DomPlaceHolder/domplaceholder.directive";
 import { DropdownDirective } from "./dropdown.directive";
@@ -15,6 +16,7 @@ import { LoadingSpinnerComponent } from "./loading-spinner/loading-spinner.compo
   imports:[
     CommonModule
   ],
+  providers:[LoggingService],
   exports:[
     AlertComponent,
     LoadingSpinnerComponent,

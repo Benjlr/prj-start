@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "recipesapp-1476d": {
+      "hosting": {
+        "my-first-app": [
+          "recipesapp-1476d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "recipesapp-1476d"
+  }
+}
